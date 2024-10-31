@@ -4,26 +4,24 @@ using UnityEngine;
 
 public class ThirdPersonCam : MonoBehaviour
 {
-    [Header("References")]
     public Transform orientation;
     public Transform player;
     public Transform playerObj;
     public Rigidbody rb;
 
-    public float rotationSpeed;
+    public float rotationSpeed = 5f;
+    public float mouseSensitivity = 2f;
 
     public Transform combatLookAt;
 
     public GameObject thirdPersonCam;
     public GameObject combatCam;
-    public GameObject topDownCam;
 
     public CameraStyle currentStyle;
     public enum CameraStyle
     {
         Basic,
-        Combat,
-        Topdown
+        Combat
     }
 
     private void Start()
@@ -34,31 +32,25 @@ public class ThirdPersonCam : MonoBehaviour
 
     private void Update()
     {
-        // switch styles
+        // Switch styles
         if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCameraStyle(CameraStyle.Basic);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCameraStyle(CameraStyle.Combat);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchCameraStyle(CameraStyle.Topdown);
 
-        // rotate orientation
-        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
-        orientation.forward = viewDir.normalized;
+        // Rotate orientation based on mouse movement
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        orientation.Rotate(0, mouseX, 0); // Rotate around the Y-axis
 
-        // roate player object
-        if(currentStyle == CameraStyle.Basic || currentStyle == CameraStyle.Topdown)
+        // Rotate player object based on camera orientation
+        if (currentStyle == CameraStyle.Basic)
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            float verticalInput = Input.GetAxis("Vertical");
-            Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
+            Vector3 inputDir = orientation.forward; // Forward direction based on camera orientation
             if (inputDir != Vector3.zero)
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
         }
-
-        else if(currentStyle == CameraStyle.Combat)
+        else if (currentStyle == CameraStyle.Combat)
         {
             Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
             orientation.forward = dirToCombatLookAt.normalized;
-
             playerObj.forward = dirToCombatLookAt.normalized;
         }
     }
@@ -67,11 +59,9 @@ public class ThirdPersonCam : MonoBehaviour
     {
         combatCam.SetActive(false);
         thirdPersonCam.SetActive(false);
-        topDownCam.SetActive(false);
 
         if (newStyle == CameraStyle.Basic) thirdPersonCam.SetActive(true);
         if (newStyle == CameraStyle.Combat) combatCam.SetActive(true);
-        if (newStyle == CameraStyle.Topdown) topDownCam.SetActive(true);
 
         currentStyle = newStyle;
     }
