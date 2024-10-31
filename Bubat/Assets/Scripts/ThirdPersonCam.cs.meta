@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 327870cf08352604fb5ec3c6b506345f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - orientation: {instanceID: 0}
+  - player: {instanceID: 0}
+  - playerObj: {instanceID: 0}
+  - rb: {instanceID: 0}
+  - combatLookAt: {instanceID: 0}
+  - thirdPersonCam: {instanceID: 0}
+  - combatCam: {instanceID: 0}
+  - topDownCam: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
