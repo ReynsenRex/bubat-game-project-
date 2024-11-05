@@ -1,4 +1,4 @@
-	using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,13 +9,14 @@ public class EnemyMovement : MonoBehaviour
 	public float rotSpeed = 80.0f;
 	public float detectionRange = 5.0f;
 	public float attackRange = 1.5f;
-	
-	public float attack = 1.0f;
+	public float attack = 0.0f;
 	public float gravity = 8.0f;
 	private Vector3 moveDir = Vector3.zero;
 	private CharacterController controller;
 	private Animator anim;
 	private Transform player;
+	private float attackDuration;
+	private bool isAttacking = false; // Track if currently attacking
 
 	void Start()
 	{
@@ -29,7 +30,7 @@ public class EnemyMovement : MonoBehaviour
 		}
 	}
 
-	void Update()
+	private void Update()
 	{
 		// Check if the player is within detection range
 		if (player != null && Vector3.Distance(transform.position, player.position) <= detectionRange)
@@ -37,18 +38,23 @@ public class EnemyMovement : MonoBehaviour
 			// Check if the player is within attack range
 			if (Vector3.Distance(transform.position, player.position) <= attackRange)
 			{
-				AttackPlayer();
+				// If not currently attacking, initiate attack
+				if (!isAttacking)
+				{
+					AttackPlayer();
+				}
 			}
 			else
 			{
-				MoveTowardsPlayer();
+				MoveTowardsPlayer(); // Move towards the player if not attacking
 			}
 		}
 		else
 		{
 			// Reset movement if player is out of range
-			moveDir = Vector3.zero;
+			moveDir = Vector3.zero; // Stop movement
 			anim.SetFloat("speed", 0);
+			isAttacking = false; // Reset attack state
 		}
 
 		// Apply gravity
@@ -69,22 +75,46 @@ public class EnemyMovement : MonoBehaviour
 		// Set animation speed
 		anim.SetFloat("speed", moveDir.magnitude); // Use the magnitude for smoother animation
 
-		// Rotate towards the player
-		float targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-		float rotation = Mathf.LerpAngle(transform.eulerAngles.y, targetRotation, rotSpeed * Time.deltaTime);
-		transform.eulerAngles = new Vector3(0, rotation, 0);
+		// Rotate towards player
+		Quaternion targetRotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 20, 0);
+		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
 	}
 
 	private void AttackPlayer()
 	{
+		// Stop movement during attack
 		moveDir = Vector3.zero;
-		
-		anim.SetFloat("speed", 0); 
-		anim.SetFloat("attack", 1);
-		
+		anim.SetFloat("speed", 0);
+
+		// Randomly select an attack type
+		int attackType = Random.Range(0, 2);
+
+		anim.SetFloat("attack", attackType + 1);
+
+		isAttacking = true;
+
+		StartCoroutine(WaitForAttackAnimation());
 	}
 
-	// Gizmos for visualizing the detection range
+	private IEnumerator WaitForAttackAnimation()
+	{
+		// Wait for the duration of the attack animation
+		yield return new WaitForSeconds(1.0f);
+
+		if (Vector3.Distance(transform.position, player.position) <= attackRange)
+		{
+			isAttacking = false;
+			AttackPlayer();
+		}
+		else
+		{
+
+			isAttacking = false; 
+			anim.SetFloat("attack", 0);
+		}
+	}
+
+
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
