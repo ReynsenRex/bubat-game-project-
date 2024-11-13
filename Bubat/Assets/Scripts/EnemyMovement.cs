@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
 	public float attackRange = 1.5f;
 	public float attack = 0.0f;
 	public float gravity = 8.0f;
+	public GameObject weaponHitbox;
 	private Vector3 moveDir = Vector3.zero;
 	private CharacterController controller;
 	private Animator anim;
@@ -88,8 +89,10 @@ public class EnemyMovement : MonoBehaviour
 
 		// Randomly select an attack type
 		int attackType = Random.Range(0, 2);
-
 		anim.SetFloat("attack", attackType + 1);
+
+		// Enable hitbox
+		weaponHitbox.SetActive(true); // Assuming you have a reference to the hitbox
 
 		isAttacking = true;
 
@@ -98,20 +101,22 @@ public class EnemyMovement : MonoBehaviour
 
 	private IEnumerator WaitForAttackAnimation()
 	{
-		// Wait for the duration of the attack animation
-		yield return new WaitForSeconds(1.0f);
-
-		if (Vector3.Distance(transform.position, player.position) <= attackRange)
-		{
-			isAttacking = false;
-			AttackPlayer();
-		}
-		else
-		{
-
-			isAttacking = false; 
-			anim.SetFloat("attack", 0);
-		}
+	    // Wait for the duration of the attack animation
+	    yield return new WaitForSeconds(1.0f);
+	
+	    // Disable hitbox after attack
+	    weaponHitbox.SetActive(false); // Deactivate the hitbox after the attack
+	
+	    if (Vector3.Distance(transform.position, player.position) <= attackRange)
+	    {
+	        isAttacking = false;
+	        AttackPlayer();
+	    }
+	    else
+	    {
+	        isAttacking = false; 
+	        anim.SetFloat("attack", 0);
+	    }
 	}
 
 

@@ -282,8 +282,9 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: CombatCam
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -356,13 +357,35 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.27218956, y: -0, z: -0, w: 0.9622437}
-  m_LocalPosition: {x: 0.0025334968, y: 0.17664826, z: -0.15074322}
+  m_LocalRotation: {x: 0.26778883, y: -0, z: -0, w: 0.9634777}
+  m_LocalPosition: {x: 0.002, y: 0.17664829, z: -0.15074322}
   m_LocalScale: {x: 0.06333748, y: 0.063337475, z: 0.063337475}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1384365306}
-  m_LocalEulerAnglesHint: {x: 31.589, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 31.066, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327870cf08352604fb5ec3c6b506345f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 1384365306}
+  player: {fileID: 1384365306}
+  playerObj: {fileID: 34150516}
+  rb: {fileID: 1384365303}
+  rotationSpeed: 5
+  mouseSensitivity: 2
+  combatLookAt: {fileID: 0}
+  thirdPersonCam: {fileID: 0}
+  combatCam: {fileID: 0}
+  currentStyle: 0
 --- !u!1001 &1179808084
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,9 +483,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1384365302}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1384365301}
   m_SourcePrefab: {fileID: 100100000, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
 --- !u!1 &1374613171
 GameObject:
@@ -575,28 +595,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
   m_PrefabInstance: {fileID: 1179808084}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1384365301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1384365300}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327870cf08352604fb5ec3c6b506345f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  orientation: {fileID: 1384365306}
-  player: {fileID: 1384365306}
-  playerObj: {fileID: 34150516}
-  rb: {fileID: 1384365303}
-  rotationSpeed: 5
-  mouseSensitivity: 2
-  combatLookAt: {fileID: 0}
-  thirdPersonCam: {fileID: 963194225}
-  combatCam: {fileID: 0}
-  currentStyle: 0
 --- !u!114 &1384365302
 MonoBehaviour:
   m_ObjectHideFlags: 0
