@@ -5252,6 +5252,8 @@ PlayableDirector:
     value: {fileID: 234024476}
   - key: {fileID: -7266760403948481153, guid: d48a4b4738c8f3240b7cef2e7784c6de, type: 2}
     value: {fileID: 1141537462}
+  - key: {fileID: 529018583867436317, guid: d48a4b4738c8f3240b7cef2e7784c6de, type: 2}
+    value: {fileID: 1014430354}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &752214960
@@ -5262,14 +5264,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752214958}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1825945, y: 1.4775565, z: -1.381264}
+  m_LocalRotation: {x: -0.014138137, y: 0.71132034, z: 0.012786906, w: 0.7026094}
+  m_LocalPosition: {x: -4.403, y: 0.837, z: -5.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1014430351}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2.181, y: 90.708, z: -0.123}
 --- !u!1 &752854019
 GameObject:
   m_ObjectHideFlags: 0
@@ -6963,6 +6965,7 @@ GameObject:
   - component: {fileID: 1014430351}
   - component: {fileID: 1014430353}
   - component: {fileID: 1014430352}
+  - component: {fileID: 1014430354}
   m_Layer: 0
   m_Name: Cutscene Cam
   m_TagString: Untagged
@@ -6979,7 +6982,7 @@ Transform:
   m_GameObject: {fileID: 1014430350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.05, y: 0, z: -1.98}
+  m_LocalPosition: {x: -6.28, y: 0, z: -0.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7006,7 +7009,7 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
-  m_FOVAxisMode: 0
+  m_FOVAxisMode: 1
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
@@ -7044,6 +7047,27 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!95 &1014430354
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014430350}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1027041642
 GameObject:
   m_ObjectHideFlags: 0
