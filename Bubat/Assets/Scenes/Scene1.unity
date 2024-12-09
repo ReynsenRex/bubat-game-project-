@@ -6345,7 +6345,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 922450300}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 327870cf08352604fb5ec3c6b506345f, type: 3}
   m_Name: 
@@ -6995,7 +6995,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1014430350}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1014430353
 Camera:
   m_ObjectHideFlags: 0
@@ -8582,7 +8582,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099165181}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f73745078e4f7b048b1f23d37eab1356, type: 3}
   m_Name: 
@@ -8798,7 +8798,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5718608718130224077, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0551
+      value: -0.2061
       objectReference: {fileID: 0}
     - target: {fileID: -5718608718130224077, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -8806,7 +8806,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5718608718130224077, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.1656
+      value: -0.406
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       propertyPath: m_Name
