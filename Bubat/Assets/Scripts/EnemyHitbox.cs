@@ -13,4 +13,14 @@ public class EnemyHitbox : MonoBehaviour
             other.GetComponent<PlayerHealth>().TakeDamage(damageAmount);
         }
     }
+
+    public void DeactivateHitbox()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void ReactivateHitbox()
+    {
+        gameObject.SetActive(true);
+    }
 }

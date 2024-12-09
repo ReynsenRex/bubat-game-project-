@@ -107,6 +107,10 @@ public class EnemyMovement : MonoBehaviour
 	    // Disable hitbox after attack
 	    weaponHitbox.SetActive(false); // Deactivate the hitbox after the attack
 	
+	    // Reactivate hitbox after a delay
+	    yield return new WaitForSeconds(0.5f); // Adjust the delay as needed
+	    weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
+	
 	    if (Vector3.Distance(transform.position, player.position) <= attackRange)
 	    {
 	        isAttacking = false;
@@ -118,7 +122,6 @@ public class EnemyMovement : MonoBehaviour
 	        anim.SetFloat("attack", 0);
 	    }
 	}
-
 
 	void OnDrawGizmos()
 	{

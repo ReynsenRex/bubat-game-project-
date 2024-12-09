@@ -58,21 +58,21 @@ public class Movement : MonoBehaviour
 			}
 		}
 	}
-	
-	void OnAnimatorMove()
-    {
-        // Apply root motion automatically
-        if (anim)
-        {
-            // Get the root motion delta position and rotation
-            Vector3 deltaPosition = anim.deltaPosition;
-            Quaternion deltaRotation = anim.deltaRotation;
 
-            // Move the character based on the root motion
-            rb.MovePosition(rb.position + deltaPosition);
-            rb.MoveRotation(rb.rotation * deltaRotation);
-        }
-    }
+	void OnAnimatorMove()
+	{
+		// Apply root motion automatically
+		if (anim)
+		{
+			// Get the root motion delta position and rotation
+			Vector3 deltaPosition = anim.deltaPosition;
+			Quaternion deltaRotation = anim.deltaRotation;
+
+			// Move the character based on the root motion
+			rb.MovePosition(rb.position + deltaPosition);
+			rb.MoveRotation(rb.rotation * deltaRotation);
+		}
+	}
 
 	private void HandleMovement()
 	{
@@ -98,12 +98,23 @@ public class Movement : MonoBehaviour
 		dodge = true;
 		rollTime = rollDuration;
 
+		// Deactivate enemy hitboxes when dodging
+		foreach (GameObject hitbox in enemyHitboxes)
+		{
+			if (hitbox != null)
+			{
+				hitbox.GetComponent<EnemyHitbox>().DeactivateHitbox();
+			}
+		}
+
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
 
 		Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 		rollDirection = movement.normalized;
 		anim.SetBool("dodge", true);
+		
+		StartCoroutine(ReactivateHitbox(rollDuration));
 	}
 
 	private void Dodge()
@@ -176,5 +187,30 @@ public class Movement : MonoBehaviour
 
 		anim.SetFloat("attack", 0); // Reset animation to idle
 		isAttacking = false;
+	}
+
+	// Reactivate hitboxes after a delay
+	private IEnumerator ReactivateHitbox(float duration)
+	{
+		yield return new WaitForSeconds(duration);
+		if (enemyHitboxes != null)
+		{
+			foreach (GameObject hitbox in enemyHitboxes)
+			{
+				if (hitbox != null)
+				{
+					hitbox.SetActive(true);
+					Debug.Log("Enemy hitbox reactivated: " + hitbox.name);
+				}
+				else
+				{
+					Debug.LogWarning("A hitbox in enemyHitboxes is null during reactivation!");
+				}
+			}
+		}
+		else
+		{
+			Debug.LogError("enemyHitboxes is null when trying to reactivate hitboxes.");
+		}
 	}
 }
