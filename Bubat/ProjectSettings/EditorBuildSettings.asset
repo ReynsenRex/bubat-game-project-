@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tutorial.unity
     guid: d63fa9ccb08cd1345a03cd3c38d12412
   - enabled: 1
-    path: Assets/Scenes/CScene_Putri.unity
+    path: Assets/Scenes/CSC_Putri1.unity
     guid: 41da2aad092ba3f49bdf1a04feb12148
   - enabled: 1
     path: Assets/Scenes/PrincessPayload.unity

@@ -5,7 +5,7 @@ using UnityEngine.Playables;
 public class TimelineSceneChange : MonoBehaviour
 {
     public PlayableDirector playableDirector; // Reference to the PlayableDirector
-    public string nextSceneName; // Name of the next scene to load
+    //public string nextSceneName; // Name of the next scene to load
 
     private void Start()
     {
@@ -21,7 +21,7 @@ public class TimelineSceneChange : MonoBehaviour
         if (director == playableDirector)
         {
             // Load the next scene
-            SceneManager.LoadScene(nextSceneName);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
