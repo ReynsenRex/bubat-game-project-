@@ -7,7 +7,6 @@ public class TutorialTrigger : MonoBehaviour
 {
     public GameObject tutorialCanvas; // The tutorial UI canvas
     public TMP_Text tutorialText; // TextMeshPro text component for messages
-    public string tutorialMessage; // The message to display for this trigger
     public float displayDuration = 5f; // Time to display the canvas
 
     private void OnTriggerEnter(Collider other)
@@ -15,7 +14,6 @@ public class TutorialTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("Player entered tutorial trigger.");
-            tutorialText.text = tutorialMessage; // Update the text to this trigger's message
             tutorialCanvas.SetActive(true); // Show the tutorial canvas
             CancelInvoke("HideCanvas"); // Cancel any previous HideCanvas invocations
             Invoke("HideCanvas", displayDuration); // Hide the canvas after displayDuration
