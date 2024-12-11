@@ -4,8 +4,8 @@ using UnityEngine.UI;
 public class HPBarEnemy : MonoBehaviour
 {
     public Image enemyHPBar; // Health bar image
-    public EnemyHealthNormies enemyHealthNormies; // Reference to the PlayerHealth script
-    private float maxHP = 100.0f; // Maximum health of the player
+    public EnemyHealthNormies enemyHealthNormies; // Reference to the EnemyHealth script
+    private float maxHP = 50.0f; // Maximum health of the enemey
     private float speed = 1; // Speed of health bar animation
 
     // Update is called once per frame
