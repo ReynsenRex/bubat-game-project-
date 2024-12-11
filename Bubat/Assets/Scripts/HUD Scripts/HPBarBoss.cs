@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBarEnemy : MonoBehaviour
+public class HPBarBoss : MonoBehaviour
 {
     public Image enemyHPBar; // Health bar image
-    public EnemyHealthNormies enemyHealthNormies; // Reference to the EnemyHealth script
+    public EnemyHealth enemyHealthBoss; // Reference to the EnemyHealth script
     private float maxHP = 50.0f; // Maximum health of the enemy
     private float speed = 1; // Speed of health bar animation
     public Transform player; // Reference to the player's transform
@@ -13,9 +13,9 @@ public class HPBarEnemy : MonoBehaviour
     void Update()
     {
         // Update the health bar based on the enemy's current health
-        if (enemyHealthNormies != null)
+        if (enemyHealthBoss != null)
         {
-            UpdateHP(enemyHPBar, enemyHealthNormies.health, maxHP);
+            UpdateHP(enemyHPBar, enemyHealthBoss.health, maxHP);
         }
 
         // Make the health bar face the player
