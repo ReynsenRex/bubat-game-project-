@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBar : MonoBehaviour
+public class HPBarEnemy : MonoBehaviour
 {
-    public Image playerHPBar; // Health bar image
-    public PlayerHealth playerHealth; // Reference to the PlayerHealth script
+    public Image enemyHPBar; // Health bar image
+    public EnemyHealthNormies enemyHealthNormies; // Reference to the PlayerHealth script
     private float maxHP = 100.0f; // Maximum health of the player
     private float speed = 1; // Speed of health bar animation
 
@@ -12,9 +12,9 @@ public class HPBar : MonoBehaviour
     void Update()
     {
         // Get the player's current health and update the health bar
-        if (playerHealth != null)
+        if (enemyHealthNormies != null)
         {
-            UpdateHP(playerHPBar, playerHealth.health, maxHP);
+            UpdateHP(enemyHPBar, enemyHealthNormies.health, maxHP);
         }
 
         // Optional: Keep the health bar facing the camera (if needed)
