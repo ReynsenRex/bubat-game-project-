@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - Wall
   - Trigger
+  - Ally
+  - Hitbox
+  - Objective
   layers:
   - Default
   - TransparentFX
