@@ -102,14 +102,17 @@ public class EnemyMovementNormies : MonoBehaviour
 	private IEnumerator WaitForAttackAnimation()
 	{
 	    // Wait for the duration of the attack animation
-	    yield return new WaitForSeconds(1.0f);
+	    yield return new WaitForSeconds(1.0f); // Adjust this to match your animation duration
 	
 	    // Disable hitbox after attack
-	    weaponHitbox.SetActive(false); // Deactivate the hitbox after the attack
+	    weaponHitbox.SetActive(false);
 	
 	    // Reactivate hitbox after a delay
-	    yield return new WaitForSeconds(0.5f); // Adjust the delay as needed
+	    yield return new WaitForSeconds(0.5f); // Delay for reactivation if needed
 	    weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
+	
+	    // Add a delay between attacks
+	    yield return new WaitForSeconds(2.0f); // 2-second cooldown
 	
 	    if (Vector3.Distance(transform.position, player.position) <= attackRange)
 	    {
@@ -118,16 +121,9 @@ public class EnemyMovementNormies : MonoBehaviour
 	    }
 	    else
 	    {
-	        isAttacking = false; 
-	        anim.SetFloat("attack", 0);
+	        isAttacking = false;
+	        anim.SetFloat("attack", 0); // Reset attack animation
 	    }
 	}
 
-	void OnDrawGizmos()
-	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(transform.position, detectionRange);
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, attackRange); // Visualize attack range
-	}
 }

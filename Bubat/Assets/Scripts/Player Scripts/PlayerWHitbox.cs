@@ -9,7 +9,6 @@ public class PlayerWHitbox : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Check if the collider belongs to an enemy
-        Debug.Log("HA");
         if (other.CompareTag("Enemy"))
         {
             // Try to get the EnemyHealth component
