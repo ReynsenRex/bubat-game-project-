@@ -63,6 +63,10 @@ public class PlayerHealth : MonoBehaviour
         {
             SceneManager.LoadScene("CSC_Ending");
         }
+        else
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 
     public void ResetHealth()

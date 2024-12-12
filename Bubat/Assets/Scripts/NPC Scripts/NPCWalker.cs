@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPCWalker : MonoBehaviour
 {
 	public float moveSpeed = 2.0f; // Movement speed
 	public float rotationSpeed = 5.0f; // Rotation speed
 	public List<GameObject> waypoints; // List of waypoints
+	//public NPCHealth health;
 
 	private int currentWaypointIndex = 0; // Current waypoint index
 	private Animator anim; // Animator for controlling the speed animation
@@ -60,11 +62,22 @@ public class NPCWalker : MonoBehaviour
 				anim.SetFloat("speed", 1); // Play walk animation
 			}
 		}
-		else
+		if (distanceToWaypoint == 0)
 		{
 			// Move to the next waypoint
 			currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+			// Cek apakah waypoint terakhir tercapai
+			if (currentWaypointIndex == waypoints.Count - 1)
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // Panggil fungsi untuk memuat scene berikutnya
+			}
+			else
+			{
+				// Move to the next waypoint
+				currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Count;
+			}
 		}
+		
 	}
 
 	private void OnTriggerEnter(Collider other)

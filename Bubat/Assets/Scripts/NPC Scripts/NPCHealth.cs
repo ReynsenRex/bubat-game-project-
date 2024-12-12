@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPCHealth : MonoBehaviour
 {
@@ -21,7 +22,8 @@ public class NPCHealth : MonoBehaviour
 		if (health <= 0)
 		{
 			Die(); // Call the Die method if health is depleted
-		}
+            SceneManager.LoadScene("MainMenu");
+        }
 	}
 
 
@@ -33,7 +35,7 @@ public class NPCHealth : MonoBehaviour
 		
 		// Destroy the enemy GameObject
 		Destroy(gameObject);
-		
+		SceneManager.LoadScene("MainMenu");
 	}
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -67,6 +68,16 @@ public class Movement : MonoBehaviour
 		if (playerHealth != null && playerHealth.IsDead() && anim != null)
     	{
     	    anim.SetBool("dead", true); // Trigger death animation
+			if (SceneManager.GetActiveScene().name == "MainBoss")
+			{
+                SceneManager.LoadScene("CSC_Ending");
+            }
+			else
+			{
+                SceneManager.LoadScene("MainMenu");
+            }
+
+			
     	}
 		if (!isAttacking) // Only allow movement if not attacking
 		{
