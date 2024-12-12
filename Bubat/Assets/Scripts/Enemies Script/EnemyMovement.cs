@@ -88,7 +88,7 @@ public class EnemyMovement : MonoBehaviour
 		anim.SetFloat("speed", 0);
 
 		// Randomly select an attack type
-		int attackType = Random.Range(0, 2);
+		int attackType = Random.Range(0, 4);
 		anim.SetFloat("attack", attackType + 1);
 
 		// Enable hitbox
@@ -101,26 +101,27 @@ public class EnemyMovement : MonoBehaviour
 
 	private IEnumerator WaitForAttackAnimation()
 	{
-	    // Wait for the duration of the attack animation
-	    yield return new WaitForSeconds(1.0f);
+		// Wait for the duration of the attack animation
+		yield return new WaitForSeconds(3.0f);
 	
-	    // Disable hitbox after attack
-	    weaponHitbox.SetActive(false); // Deactivate the hitbox after the attack
+		// Disable hitbox after attack
+		weaponHitbox.SetActive(false); // Deactivate the hitbox after the attack
 	
-	    // Reactivate hitbox after a delay
-	    yield return new WaitForSeconds(0.5f); // Adjust the delay as needed
-	    weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
+		// Reactivate hitbox after a delay
+		yield return new WaitForSeconds(0.5f); // Adjust the delay as needed
+		weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
 	
-	    if (Vector3.Distance(transform.position, player.position) <= attackRange)
-	    {
-	        isAttacking = false;
-	        AttackPlayer();
-	    }
-	    else
-	    {
-	        isAttacking = false; 
-	        anim.SetFloat("attack", 0);
-	    }
+		if (Vector3.Distance(transform.position, player.position) <= attackRange)
+		{
+			isAttacking = false;
+			AttackPlayer();
+		}
+		else
+		{
+			isAttacking = false; 
+			anim.SetFloat("attack", 0);
+		}
+		yield return new WaitForSeconds(6.0f); // 2-second cooldown
 	}
 
 	void OnDrawGizmos()

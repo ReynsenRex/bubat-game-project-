@@ -20,16 +20,32 @@ public class Movement : MonoBehaviour
 	private bool isAttacking = false;
 	private Vector3 rootMotionDelta = Vector3.zero; // To store root motion adjustments
 
+	private StaminaManager staminaManager;
+	public float staminaCostSprint = 5.0f;  // Stamina cost per second for sprinting
+	public float staminaCostDodge = 20.0f;  // Stamina cost for dodging
+	public float staminaCostAttack = 15.0f; // Stamina cost for attacking
+	
+	// Healing properties
+	public int maxHealUses = 3;
+	private int remainingHealUses = 3;
+	public int healAmount = 30;
+
 	// Start is called before the first frame update
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
 		playerHealth = GetComponent<PlayerHealth>();
+		staminaManager = GetComponent<StaminaManager>();
 
 		if (playerHealth == null)
 		{
 			Debug.LogError("PlayerHealth component not found on this GameObject.");
+		}
+
+		if (staminaManager == null)
+		{
+			Debug.LogError("StaminaManager component not found on this GameObject.");
 		}
 
 		AssignHitboxes();
@@ -48,18 +64,23 @@ public class Movement : MonoBehaviour
 	{
 		// Clean up enemyHitboxes list by removing inactive or null hitboxes
 		RemoveInactiveHitboxes();
-
+		if (playerHealth != null && playerHealth.IsDead() && anim != null)
+    	{
+    	    anim.SetBool("dead", true); // Trigger death animation
+    	}
 		if (!isAttacking) // Only allow movement if not attacking
 		{
 			if (!dodge)
 			{
 				HandleMovement();
-				if (Input.GetMouseButtonDown(0)) // Attack on left mouse button
+				if (Input.GetMouseButtonDown(0) && staminaManager.HasEnoughStamina(staminaCostAttack)) // Attack on left mouse button
 				{
+					staminaManager.UseStamina(staminaCostAttack);
 					StartCoroutine(Attack());
 				}
-				if (Input.GetKeyDown(KeyCode.Space)) // Dodge on spacebar
+				if (Input.GetKeyDown(KeyCode.Space) && staminaManager.HasEnoughStamina(staminaCostDodge)) // Dodge on spacebar
 				{
+					staminaManager.UseStamina(staminaCostDodge);
 					StartDodge();
 				}
 			}
@@ -67,6 +88,37 @@ public class Movement : MonoBehaviour
 			{
 				Dodge();
 			}
+		}
+		
+		if (Input.GetKeyDown(KeyCode.R)) // Heal when pressing R
+		{
+			Heal();
+		}
+		
+		if (Time.frameCount % 60 == 0) // Example: Reassign every 60 frames
+   		{
+   			AssignHitboxes();
+   		}
+	}
+	
+	private void Heal()
+	{
+		if (remainingHealUses > 0 && playerHealth != null)
+		{
+			
+		if (playerHealth.health >= 100)
+		{
+			Debug.Log("Player health is already full. Heal not applied.");
+			return;
+		}
+		
+			playerHealth.RestoreHealth(healAmount); // Restore 30 health
+			remainingHealUses--; // Decrease remaining heal uses
+			Debug.Log($"Healed for {healAmount}. Remaining heals: {remainingHealUses}");
+		}
+		else
+		{
+			Debug.Log("No heals remaining or PlayerHealth is not assigned.");
 		}
 	}
 
@@ -89,7 +141,8 @@ public class Movement : MonoBehaviour
 
 		foreach (GameObject hitbox in allHitboxes)
 		{
-			if (!enemyHitboxes.Contains(hitbox))  // Check to avoid adding duplicates
+			// Only add hitboxes that are active and not already in the list
+			if (hitbox.activeSelf && !enemyHitboxes.Contains(hitbox))
 			{
 				enemyHitboxes.Add(hitbox);
 				Debug.Log("Assigned hitbox: " + hitbox.name);
@@ -97,9 +150,9 @@ public class Movement : MonoBehaviour
 		}
 	}
 
+
 	private void HandleMovement()
 	{
-
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
 	
@@ -118,7 +171,13 @@ public class Movement : MonoBehaviour
 		Debug.DrawRay(transform.position, movement * 1f, Color.red);
 
 		// Determine current speed (normal or sprint)
-		float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : speed;
+		float currentSpeed = Input.GetKey(KeyCode.LeftShift) && staminaManager.HasEnoughStamina(staminaCostSprint * Time.deltaTime) ? sprintSpeed : speed;
+
+		if (currentSpeed == sprintSpeed)
+		{
+			staminaManager.UseStamina(staminaCostSprint * Time.deltaTime);
+		}
+
 		LayerMask wallLayer = LayerMask.GetMask("Wall"); // Ensure "Wall" layer is assigned
 
 		// If there's movement, check for obstacles and move
@@ -140,10 +199,8 @@ public class Movement : MonoBehaviour
 			Vector3 forwardDirection = transform.forward;  // Use player’s facing direction
 			if (Physics.Raycast(transform.position, forwardDirection, out RaycastHit kenak, 1f, wallLayer))
 			{
-			    Debug.Log("Hit a wall, stopping movement.");
+				Debug.Log("Hit a wall, stopping movement.");
 			}
-
-
 		}
 	
 		// Update animator parameters
@@ -151,7 +208,6 @@ public class Movement : MonoBehaviour
 		anim.SetFloat("y", moveVertical);
 		anim.SetFloat("speed", movement.magnitude * currentSpeed / sprintSpeed); // Normalize speed for sprinting
 	}
-
 
 	private void StartDodge()
 	{

@@ -9,46 +9,60 @@ public class PlayerHealth : MonoBehaviour
     private bool isInvincible = false; // Track if the player is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage
 
-    // Method to apply damage to the player
+    // Maximum health for the player
+    public float maxHealth = 100.0f;
+
+    // Public method to check if the player is dead
+    public bool IsDead()
+    {
+        return isDead;
+    }
+
     public void TakeDamage(float damage)
     {
-        if (isDead || isInvincible) return; // If the player is dead or invincible, ignore damage
+        if (isDead || isInvincible) return;
 
-        health -= damage; // Subtract damage from health
+        health -= damage;
         Debug.Log("Player took damage: " + damage + ". Remaining health: " + health);
 
-        // Start invincibility
         StartCoroutine(InvincibilityCoroutine());
 
-        // Check if health is less than or equal to zero
         if (health <= 0)
         {
-            Die(); // Call the Die method if health is depleted
+            Die();
         }
     }
 
-    // Coroutine to handle invincibility
+    public void RestoreHealth(float amount)
+    {
+        if (isDead)
+        {
+            Debug.LogWarning("Cannot restore health. Player is dead.");
+            return;
+        }
+
+        float oldHealth = health;
+        health = Mathf.Min(health + amount, maxHealth);
+        Debug.Log($"Restored {health - oldHealth} health. Current health: {health}");
+    }
+
     private IEnumerator InvincibilityCoroutine()
     {
-        isInvincible = true; // Set invincible state
-        yield return new WaitForSeconds(invincibilityDuration); // Wait for the duration
-        isInvincible = false; // Reset invincible state
+        isInvincible = true;
+        yield return new WaitForSeconds(invincibilityDuration);
+        isInvincible = false;
     }
 
-    // Method to handle player death
     private void Die()
     {
-        isDead = true; // Set the player as dead
+        isDead = true;
         Debug.Log("Player has died.");
-        
-        // Optionally, you can trigger a respawn or game over logic here
     }
 
-    // Optional: Method to reset player health (for respawning or other purposes)
     public void ResetHealth()
     {
-        health = 100.0f; // Reset to initial health value
-        isDead = false; // Mark the player as alive
+        health = maxHealth;
+        isDead = false;
         Debug.Log("Player health reset. Current health: " + health);
     }
 }

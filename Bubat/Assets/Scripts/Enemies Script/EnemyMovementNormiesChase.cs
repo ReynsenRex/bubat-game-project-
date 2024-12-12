@@ -126,7 +126,7 @@ public class EnemyMovementNormiesChase : MonoBehaviour
         }
 
         // Add a delay between attacks
-        yield return new WaitForSeconds(2.0f); // 2-second cooldown
+        yield return new WaitForSeconds(3.0f); // 2-second cooldown
 
         isAttacking = false;
         anim.SetFloat("attack", 0); // Reset attack animation

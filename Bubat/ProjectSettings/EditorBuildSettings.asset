@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/PrincessPayload.unity
     guid: 7762a1f1a269b06408e162fef15e6361
   - enabled: 1
-    path: Assets/Scenes/MiniBoss.unity
+    path: Assets/Scenes/MainBoss.unity
     guid: de49bbef3b02475498ec19c91685b305
   - enabled: 1
     path: Assets/Scenes/GajahMada_Cutscene.unity
