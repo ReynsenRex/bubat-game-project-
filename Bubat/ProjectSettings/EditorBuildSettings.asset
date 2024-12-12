@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MiniBoss.unity
     guid: 31dfe3c650a0d2944a0abc044959507f
   - enabled: 1
+    path: Assets/Scenes/CSC_Text3.unity
+    guid: 2ddac3d3dbbc8054d8e432405ce2ab07
+  - enabled: 1
     path: Assets/Scenes/GajahMada_Cutscene.unity
     guid: 184428cebafd3704bb5484080ef2817b
   - enabled: 1
