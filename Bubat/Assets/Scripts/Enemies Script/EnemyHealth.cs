@@ -44,7 +44,8 @@ public class EnemyHealth : MonoBehaviour
         
         // Destroy the enemy GameObject
         Destroy(gameObject);
-        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
         // Optionally, you can play a death animation or particle effect here
     }
 
@@ -59,7 +60,7 @@ public class EnemyHealth : MonoBehaviour
 
     public void ChangeScene()
     {
-        if (isDead)
+        if (health <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
