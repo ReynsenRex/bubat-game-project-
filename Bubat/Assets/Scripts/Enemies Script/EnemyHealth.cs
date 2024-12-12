@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class EnemyHealth : MonoBehaviour
 {
     public float health = 50.0f; // Total health of the enemy
@@ -53,5 +55,13 @@ public class EnemyHealth : MonoBehaviour
         isDead = false; // Mark the enemy as alive
         gameObject.SetActive(true); // Reactivate the enemy GameObject
         Debug.Log("Enemy health reset. Current health: " + health);
+    }
+
+    public void ChangeScene()
+    {
+        if (isDead)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

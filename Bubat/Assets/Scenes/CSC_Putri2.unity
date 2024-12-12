@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: ad27fb2512ef4e742889f441f33bf5d7, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -18413,6 +18413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   invincibilityDuration: 0.3
+  maxHealth: 100
 --- !u!1001 &1645712995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18511,6 +18512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   invincibilityDuration: 0.3
+  maxHealth: 100
 --- !u!114 &1686615608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18529,6 +18531,11 @@ MonoBehaviour:
   sprintSpeed: 5
   rollSpeed: 5
   rollDuration: 0.5
+  staminaCostSprint: 5
+  staminaCostDodge: 20
+  staminaCostAttack: 15
+  maxHealUses: 3
+  healAmount: 30
 --- !u!54 &1686615609
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20497,6 +20504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   invincibilityDuration: 0.3
+  maxHealth: 100
 --- !u!1 &1948966710
 GameObject:
   m_ObjectHideFlags: 0
