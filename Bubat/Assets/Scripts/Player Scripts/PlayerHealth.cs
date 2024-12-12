@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead = false; // Track if the player is dead
     private bool isInvincible = false; // Track if the player is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage
+    private Scene currScene = SceneManager.GetActiveScene();
 
     // Maximum health for the player
     public float maxHealth = 100.0f;
@@ -57,6 +59,10 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
         Debug.Log("Player has died.");
+        if(currScene.name == "MainBoss")
+        {
+            SceneManager.LoadScene("CSC_Ending");
+        }
     }
 
     public void ResetHealth()
