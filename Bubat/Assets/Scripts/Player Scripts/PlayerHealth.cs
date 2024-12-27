@@ -9,10 +9,15 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead = false; // Track if the player is dead
     private bool isInvincible = false; // Track if the player is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage
-    private Scene currScene = SceneManager.GetActiveScene();
+    private Scene currScene;
 
     // Maximum health for the player
     public float maxHealth = 100.0f;
+
+    private void Awake()
+    {
+        currScene = SceneManager.GetActiveScene();
+    }
 
     // Public method to check if the player is dead
     public bool IsDead()
@@ -65,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("Main Menu");
         }
     }
 
