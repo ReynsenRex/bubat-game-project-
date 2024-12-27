@@ -6,16 +6,17 @@ using UnityEngine.SceneManagement;
 public class BossChangeScene : MonoBehaviour
 {
     public EnemyHealth enemyHealth;
+    private float health;
     // Start is called before the first frame update
     void Start()
     {
-        enemyHealth = GetComponent<EnemyHealth>();   
+        health = enemyHealth.health;   
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemyHealth.health <= 0)
+        if (health <= 0)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
