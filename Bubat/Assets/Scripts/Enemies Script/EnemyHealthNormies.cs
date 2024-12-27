@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyHealthNormies : MonoBehaviour
 {
-    public float health = 50.0f; // Total health of the enemy
+    public float health; // Total health of the enemy
     private bool isDead = false; // Track if the enemy is dead
     private bool isInvincible = false; // Track if the enemy is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage

@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 580293211}
   enemyHealthNormies: {fileID: 1570180835}
-  player: {fileID: 0}
+  player: {fileID: 1747246098}
 --- !u!114 &82461878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7669,7 +7669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 267639409}
   enemyHealthNormies: {fileID: 1407922765}
-  player: {fileID: 0}
+  player: {fileID: 1747246098}
 --- !u!114 &583437324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13864,7 +13864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHPBar: {fileID: 75120810}
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 1747246101}
 --- !u!1 &1190947169
 GameObject:
   m_ObjectHideFlags: 0
@@ -15597,7 +15597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 820352805}
   enemyHealthNormies: {fileID: 158354843}
-  player: {fileID: 0}
+  player: {fileID: 1747246098}
 --- !u!114 &1340874370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20253,7 +20253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 1912084294}
   enemyHealthNormies: {fileID: 1920781800}
-  player: {fileID: 0}
+  player: {fileID: 1747246098}
 --- !u!114 &1742508770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23408,7 +23408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHPBar: {fileID: 1070177578}
   enemyHealthNormies: {fileID: 276014922}
-  player: {fileID: 0}
+  player: {fileID: 1747246098}
 --- !u!114 &2074633023
 MonoBehaviour:
   m_ObjectHideFlags: 0

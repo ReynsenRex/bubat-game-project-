@@ -74,7 +74,7 @@ public class Movement : MonoBehaviour
             }
 			else
 			{
-                SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene("Main Menu");
             }
 
 			
