@@ -21,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
 
     // Public method to check if the player is dead
     public bool IsDead()
-    {
+    {   
         return isDead;
     }
 

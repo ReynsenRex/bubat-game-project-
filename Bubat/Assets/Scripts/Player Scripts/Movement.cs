@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
 	
 	// Healing properties
 	public int maxHealUses = 3;
-	private int remainingHealUses = 3;
+	public int remainingHealUses = 3;
 	public int healAmount = 30;
 
 	// Start is called before the first frame update
