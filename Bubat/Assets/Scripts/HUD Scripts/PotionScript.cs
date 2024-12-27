@@ -7,7 +7,7 @@ using TMPro;
 public class PotionScript : MonoBehaviour
 {
     public Image potionImg;
-    public Movement movement = new Movement();
+    public Movement movement;
     public TMP_Text potionCount;
     private int maxPotion;
     private int currentUses;
@@ -23,7 +23,10 @@ public class PotionScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UsePotion();  
+        if (Input.GetKeyDown(KeyCode.R)) // Heal when pressing R
+        {
+            UsePotion();
+        }
     }
 
     public void UsePotion()

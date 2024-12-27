@@ -117,15 +117,15 @@ public class Movement : MonoBehaviour
 		if (remainingHealUses > 0 && playerHealth != null)
 		{
 			
-		if (playerHealth.health >= 100)
-		{
-			Debug.Log("Player health is already full. Heal not applied.");
-			return;
-		}
+			if (playerHealth.health >= 100)
+			{
+				Debug.Log("Player health is already full. Heal not applied.");
+				return;
+			}
 		
-			playerHealth.RestoreHealth(healAmount); // Restore 30 health
-			remainingHealUses--; // Decrease remaining heal uses
-			Debug.Log($"Healed for {healAmount}. Remaining heals: {remainingHealUses}");
+				playerHealth.RestoreHealth(healAmount); // Restore 30 health
+				remainingHealUses--; // Decrease remaining heal uses
+				Debug.Log($"Healed for {healAmount}. Remaining heals: {remainingHealUses}");
 		}
 		else
 		{
