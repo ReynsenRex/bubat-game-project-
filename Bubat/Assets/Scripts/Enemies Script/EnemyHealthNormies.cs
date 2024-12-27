@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class EnemyHealthNormies : MonoBehaviour
 {
     public float health = 50.0f; // Total health of the enemy
     private bool isDead = false; // Track if the enemy is dead
     private bool isInvincible = false; // Track if the enemy is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage
+
+    // Public GameObject to hold the ragdoll prefab
+    public GameObject ragdollPrefab;
 
     // Method to apply damage to the enemy
     public void TakeDamage(float damage)
@@ -39,7 +43,13 @@ public class EnemyHealthNormies : MonoBehaviour
     {
         isDead = true; // Set the enemy as dead
         Debug.Log("Enemy has died.");
-        
+
+        // Instantiate the ragdoll prefab at the enemy's position and rotation
+        if (ragdollPrefab != null)
+        {
+            Instantiate(ragdollPrefab, transform.position, transform.rotation);
+        }
+
         // Destroy the enemy GameObject
         Destroy(gameObject);
         
