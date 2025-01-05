@@ -648,6 +648,10 @@ PrefabInstance:
       value: Subtitle Canvas (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 362
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 3
       objectReference: {fileID: 0}
@@ -735,9 +739,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 675686605}
-  - {fileID: 1819151755}
   - {fileID: 544210561}
   - {fileID: 1022471743}
   - {fileID: 1380889044}
   - {fileID: 1518562597}
   - {fileID: 1929885994}
+  - {fileID: 1819151755}

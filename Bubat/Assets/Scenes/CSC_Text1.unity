@@ -648,6 +648,22 @@ PrefabInstance:
       value: Subtitle Canvas (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 338
+      objectReference: {fileID: 0}
+    - target: {fileID: 1700736394017488401, guid: 52591b675cff05f4b880112b092895ab, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 3
       objectReference: {fileID: 0}
