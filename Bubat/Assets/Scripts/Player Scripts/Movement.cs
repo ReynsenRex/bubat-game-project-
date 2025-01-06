@@ -336,7 +336,9 @@ public class Movement : MonoBehaviour
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
 
-		Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        audioManager.PlaySFX(audioManager.dodge);
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 		rollDirection = movement.normalized;
 		anim.SetBool("dodge", true);
 
@@ -349,6 +351,7 @@ public class Movement : MonoBehaviour
 		{
 			transform.Translate(rollDirection * rollSpeed * Time.deltaTime);
 			rollTime -= Time.deltaTime;
+			
 		}
 		else
 		{
