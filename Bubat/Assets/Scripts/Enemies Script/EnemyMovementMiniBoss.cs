@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class EnemyMovementMiniBoss : MonoBehaviour
 {
-	public string playerTag = "Player";
-	public float speed = 1.0f;
-	public float rotSpeed = 80.0f;
-	public float detectionRange = 5.0f;
-	public float attackRange = 1.5f;
-	public float spawnDistance = 2.0f; // Distance to spawn enemy from this enemy (left or right)
-	public float spawnAreaRadius = 5.0f; // Radius around the spawn point to place the new enemies
-	public float gravity = 8.0f;
-	public GameObject weaponHitbox;
-	public GameObject weaponHitbox2;
-	public GameObject enemyPrefab; // Prefab of the enemy to spawn
-	private EnemyHealth enemyHealth; // Reference to the enemy's health script
-	public GameObject spawnPoint; // GameObject to attach the spawn point to the enemy (this can be an empty GameObject)
+	[SerializeField] private string playerTag = "Player";
+	[SerializeField] private float speed = 1.0f;
+	[SerializeField] private float rotSpeed = 80.0f;
+	[SerializeField] private float detectionRange = 5.0f;
+	[SerializeField] private float attackRange = 1.5f;
+	[SerializeField] private float spawnDistance = 2.0f; // Distance to spawn enemy from this enemy (left or right)
+	[SerializeField] private float spawnAreaRadius = 5.0f; // Radius around the spawn point to place the new enemies
+	[SerializeField] private float gravity = 8.0f;
+	[SerializeField] private GameObject weaponHitbox;
+	[SerializeField] private GameObject weaponHitbox2;
+	[SerializeField] private GameObject enemyPrefab; // Prefab of the enemy to spawn
+	[SerializeField] private GameObject spawnPoint; // GameObject to attach the spawn point to the enemy (this can be an empty GameObject)
 
 	private Vector3 moveDir = Vector3.zero;
 	private CharacterController controller;
@@ -25,6 +24,7 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 	private bool isAttacking = false; // Track if currently attacking
 	private bool isSpawning = false;  // Track if the enemy is in the spawn animation
 	private int spawnCount = 0; // Count how many times the enemy has spawned (maximum 2)
+	private EnemyHealth enemyHealth; // Reference to the enemy's health script
 
 	void Start()
 	{
@@ -46,11 +46,19 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 
 	private void Update()
 	{
+		if (player == null) return;
+
+		Vector3 playerPosition = player.position;
+		float distanceToPlayer = Vector3.Distance(transform.position, playerPosition);
+
+		// Always face the player
+		RotateTowardsPlayer();
+
 		// Check if the player is within detection range
-		if (player != null && Vector3.Distance(transform.position, player.position) <= detectionRange)
+		if (distanceToPlayer <= detectionRange)
 		{
 			// Check if the player is within attack range
-			if (Vector3.Distance(transform.position, player.position) <= attackRange)
+			if (distanceToPlayer <= attackRange)
 			{
 				// If not currently attacking, initiate attack
 				if (!isAttacking && !isSpawning)
@@ -72,16 +80,12 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 		}
 
 		// Check health and trigger spawn when health reaches 60 or 30 (only if spawnCount < 2)
-		if (spawnCount < 2)
+		if (spawnCount < 2 && enemyHealth.health <= 60f)
 		{
-			if (enemyHealth.health <= 60f && enemyHealth.health > 30f)
+			if (enemyHealth.health > 30f || enemyHealth.health <= 30f)
 			{
-				SpawnEnemy(); // Spawn enemy when health reaches 60
-			}
-
-			if (enemyHealth.health <= 30f)
-			{
-				SpawnEnemy(); // Spawn enemy when health reaches 30
+				anim.SetBool("spawn", true);
+				SpawnEnemy(); // Spawn enemy when health reaches 60 or 30
 			}
 		}
 
@@ -94,10 +98,17 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 		}
 
 		// Apply gravity
-		moveDir.y -= gravity * Time.deltaTime;
+		moveDir.y = Mathf.Clamp(moveDir.y - gravity * Time.deltaTime, -gravity, gravity);
 
 		// Move the character controller
 		controller.Move(moveDir * Time.deltaTime);
+	}
+
+	private void RotateTowardsPlayer()
+	{
+		Vector3 direction = (player.position - transform.position).normalized;
+		Quaternion targetRotation = Quaternion.LookRotation(direction);
+		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
 	}
 
 	private void MoveTowardsPlayer()
@@ -110,10 +121,6 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 
 		// Set animation speed
 		anim.SetFloat("speed", moveDir.magnitude); // Use the magnitude for smoother animation
-
-		// Rotate towards player
-		Quaternion targetRotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 20, 0);
-		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotSpeed * Time.deltaTime);
 	}
 
 	private void AttackPlayer()
@@ -122,13 +129,13 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 		moveDir = Vector3.zero;
 		anim.SetFloat("speed", 0);
 
-		// Randomly select an attack type
+		// Randomly select an attack type (0 or 1)
 		int attackType = Random.Range(0, 2);
 		anim.SetFloat("attack", attackType + 1);
 
-		// Enable hitbox
-		weaponHitbox.SetActive(true); // Assuming you have a reference to the hitbox
-		weaponHitbox2.SetActive(true); // Assuming you have a reference to the hitbox
+		// Enable hitboxes if they are not null
+		if (weaponHitbox != null) weaponHitbox.SetActive(true);
+		if (weaponHitbox2 != null) weaponHitbox2.SetActive(true);
 
 		isAttacking = true;
 
@@ -142,15 +149,16 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 		yield return new WaitForSeconds(1.0f);
 
 		// Disable hitboxes after the attack animation
-		weaponHitbox.SetActive(false);
-		weaponHitbox2.SetActive(false);
+		if (weaponHitbox != null) weaponHitbox.SetActive(false);
+		if (weaponHitbox2 != null) weaponHitbox2.SetActive(false);
 
 		// Optionally, add a short delay before reactivating hitboxes (if needed)
 		yield return new WaitForSeconds(0.5f);
-		weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
-		weaponHitbox2.GetComponent<EnemyHitbox>().ReactivateHitbox();
-		
-		yield return new WaitForSeconds(2.0f); // 2-second cooldown
+		if (weaponHitbox != null) weaponHitbox.GetComponent<EnemyHitbox>().ReactivateHitbox();
+		if (weaponHitbox2 != null) weaponHitbox2.GetComponent<EnemyHitbox>().ReactivateHitbox();
+
+		// 2-second cooldown before the next attack
+		yield return new WaitForSeconds(2.0f);
 
 		// After the attack, reset attack state
 		isAttacking = false;
