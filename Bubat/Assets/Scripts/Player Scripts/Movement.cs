@@ -384,7 +384,7 @@ public class Movement : MonoBehaviour
 		if (playerWHitbox != null)
 		{
 			float originalDamage = playerWHitbox.damageAmount;
-			playerWHitbox.damageAmount *= 1.5f; // Example: 50% damage increase
+			playerWHitbox.damageAmount *= 15f; // Example: 50% damage increase
 
 			yield return new WaitForSeconds(10.0f); // Buff duration: 10 seconds
 
