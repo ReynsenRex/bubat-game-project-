@@ -113,6 +113,21 @@ public class Movement : MonoBehaviour
 		{
 			AssignHitboxes();
 		}
+		
+		if (Input.GetKeyDown(KeyCode.Alpha2))
+    	{
+    	    // Trigger warcry animation
+    	    if (anim != null)
+    	    {
+    	        anim.SetBool("warcry", true);
+    	    }
+	
+    	    // Apply damage buff
+    	    StartCoroutine(ApplyDamageBuff());
+	
+    	    // Reset warcry animation boolean after a short delay
+    	    StartCoroutine(ResetWarcryAnimation());
+    	}
 	}
 	
 	private void Heal()
@@ -137,15 +152,15 @@ public class Movement : MonoBehaviour
 	}
 	
 	public void OnBlockSuccess(Vector3 enemyPosition)
-    {
-        // Calculate the direction to the enemy
-        Vector3 directionToEnemy = (enemyPosition - transform.position).normalized;
-        directionToEnemy.y = 0; // Ignore vertical direction
+	{
+		// Calculate the direction to the enemy
+		Vector3 directionToEnemy = (enemyPosition - transform.position).normalized;
+		directionToEnemy.y = 0; // Ignore vertical direction
 
-        // Rotate the player to face the enemy
-        Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-    }
+		// Rotate the player to face the enemy
+		Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
+		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+	}
 
 	private void RemoveInactiveHitboxes()
 	{
@@ -360,6 +375,30 @@ public class Movement : MonoBehaviour
 		{
 			weaponHitbox.SetActive(false);
 		}
+	}
+	
+	IEnumerator ApplyDamageBuff()
+	{
+		// Assuming you have a PlayerWHitbox component to manage damage
+		PlayerWHitbox playerWHitbox = GetComponent<PlayerWHitbox>();
+		if (playerWHitbox != null)
+		{
+			float originalDamage = playerWHitbox.damageAmount;
+			playerWHitbox.damageAmount *= 1.5f; // Example: 50% damage increase
+
+			yield return new WaitForSeconds(10.0f); // Buff duration: 10 seconds
+
+			playerWHitbox.damageAmount = originalDamage; // Revert the buff
+		}
+	}
+	
+	IEnumerator ResetWarcryAnimation()
+	{
+	    yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+	    if (anim != null)
+	    {
+	        anim.SetBool("warcry", false);
+	    }
 	}
 
 	// Reactivate hitboxes after a delay
