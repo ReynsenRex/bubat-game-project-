@@ -34,7 +34,6 @@ public class ThirdPersonCam : MonoBehaviour
     {
         // Switch styles
         if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCameraStyle(CameraStyle.Basic);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCameraStyle(CameraStyle.Combat);
 
         // Rotate orientation based on mouse movement
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class StaminaManager : MonoBehaviour
 {
-    public float maxStamina = 100f;
+    public float maxStamina = 200f;
     public float currentStamina;
-    public float staminaRegenRate = 5f; // Adjust this value to control regeneration speed
+    public float staminaRegenRate = 10f; // Adjust this value to control regeneration speed
     private bool isRegenerating = true;
 
     private void Start()
@@ -26,7 +26,7 @@ public class StaminaManager : MonoBehaviour
         {
             currentStamina -= amount;
             isRegenerating = false; // Pause regeneration when stamina is used
-            Invoke("EnableRegeneration", 1.0f); // Enable regeneration after a short delay
+            Invoke("EnableRegeneration", 2.0f); // Enable regeneration after a short delay
         }
         else
         {

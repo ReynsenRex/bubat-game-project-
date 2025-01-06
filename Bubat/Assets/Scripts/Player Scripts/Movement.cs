@@ -8,6 +8,9 @@ public class Movement : MonoBehaviour
 	private PlayerHealth playerHealth;
 	public List<GameObject> enemyHitboxes = new List<GameObject>(); // Initialize the list to prevent null errors
 	public GameObject weaponHitbox;
+	public GameObject weaponTrail;
+	public GameObject shieldHitbox;
+
 	public float speed = 1.0f; // Normal movement speed
 	public float sprintSpeed = 5.0f; // Sprint speed
 	public float rollSpeed = 5f;
@@ -24,7 +27,7 @@ public class Movement : MonoBehaviour
 	private StaminaManager staminaManager;
 	public float staminaCostSprint = 5.0f;  // Stamina cost per second for sprinting
 	public float staminaCostDodge = 20.0f;  // Stamina cost for dodging
-	public float staminaCostAttack = 1.0f; // Stamina cost for attacking
+	public float staminaCostAttack = 0f; // Stamina cost for attacking
 	
 	// Healing properties
 	public int maxHealUses = 3;
@@ -38,19 +41,19 @@ public class Movement : MonoBehaviour
 		anim = GetComponent<Animator>();
 		playerHealth = GetComponent<PlayerHealth>();
 		staminaManager = GetComponent<StaminaManager>();
-
+	
 		if (playerHealth == null)
 		{
 			Debug.LogError("PlayerHealth component not found on this GameObject.");
 		}
-
+	
 		if (staminaManager == null)
 		{
 			Debug.LogError("StaminaManager component not found on this GameObject.");
 		}
-
+	
 		AssignHitboxes();
-
+	
 		if (weaponHitbox != null)
 		{
 			weaponHitbox.SetActive(false); // Disable weapon hitbox by default
@@ -59,8 +62,26 @@ public class Movement : MonoBehaviour
 		{
 			Debug.LogWarning("Weapon hitbox is not assigned. Please set it in the inspector.");
 		}
+	
+		if (weaponTrail != null)
+		{
+			weaponTrail.SetActive(false); // Ensure the weapon trail is initially inactive
+		}
+		else
+		{
+			Debug.LogWarning("Weapon trail is not assigned. Please set it in the inspector.");
+		}
+	
+		if (shieldHitbox != null)
+		{
+			shieldHitbox.SetActive(false); // Ensure the shield hitbox is initially inactive
+		}
+		else
+		{
+			Debug.LogWarning("Shield hitbox is not assigned. Please set it in the inspector.");
+		}
 	}
-
+	
 	void Update()
 	{
 		// Clean up enemyHitboxes list by removing inactive or null hitboxes
@@ -81,6 +102,11 @@ public class Movement : MonoBehaviour
 		// Blocking logic
 		bool isBlocking = Input.GetMouseButton(1); // Right mouse button for blocking
 		anim.SetBool("block", isBlocking);
+	
+		if (shieldHitbox != null)
+		{
+			shieldHitbox.SetActive(isBlocking); // Activate shield hitbox when blocking
+		}
 	
 		if (!isAttacking && !isBlocking) // Only allow movement if not attacking or blocking
 		{
@@ -103,6 +129,10 @@ public class Movement : MonoBehaviour
 				Dodge();
 			}
 		}
+		if (Input.GetKeyDown(KeyCode.Alpha2)) // Warcry skill on right mouse button
+    	{
+    	    StartCoroutine(WarcrySkill());
+    	}
 	
 		if (Input.GetKeyDown(KeyCode.R)) // Heal when pressing R
 		{
@@ -113,23 +143,38 @@ public class Movement : MonoBehaviour
 		{
 			AssignHitboxes();
 		}
-		
-		if (Input.GetKeyDown(KeyCode.Alpha2))
-    	{
-    	    // Trigger warcry animation
-    	    if (anim != null)
-    	    {
-    	        anim.SetBool("warcry", true);
-    	    }
-	
-    	    // Apply damage buff
-    	    StartCoroutine(ApplyDamageBuff());
-	
-    	    // Reset warcry animation boolean after a short delay
-    	    StartCoroutine(ResetWarcryAnimation());
-    	}
 	}
+	private IEnumerator WarcrySkill()
+	{
+		anim.SetBool("warcry", true); // Trigger warcry animation
 	
+		if (weaponHitbox != null)
+		{
+			weaponHitbox.SetActive(true); // Activate weapon hitbox
+		}
+		else
+		{
+			Debug.LogWarning("Weapon hitbox is not assigned!");
+		}
+	
+		PlayerWHitbox playerWHitbox = weaponHitbox.GetComponent<PlayerWHitbox>();
+		if (playerWHitbox != null)
+		{
+			StartCoroutine(playerWHitbox.ApplyDamageBuff()); // Apply damage buff
+		}
+		else
+		{
+			Debug.LogWarning("PlayerWHitbox component not found on weaponHitbox!");
+		}
+	
+		yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+	
+		anim.SetBool("warcry", false); // Reset warcry animation
+		if (weaponHitbox != null)
+		{
+			weaponHitbox.SetActive(false); // Deactivate weapon hitbox
+		}
+	}
 	private void Heal()
 	{
 		if (remainingHealUses > 0 && playerHealth != null)
@@ -189,7 +234,6 @@ public class Movement : MonoBehaviour
 			}
 		}
 	}
-
 
 	private void HandleMovement()
 	{
@@ -312,7 +356,7 @@ public class Movement : MonoBehaviour
 			// Deduct stamina for the attack
 			staminaManager.UseStamina(staminaCostAttack);
 	
-			// Enable the weapon's hitbox at the start of the attack
+			// Enable the weapon's hitbox and trail at the start of the attack
 			if (weaponHitbox != null)
 			{
 				weaponHitbox.SetActive(true);
@@ -320,6 +364,16 @@ public class Movement : MonoBehaviour
 			else
 			{
 				Debug.LogWarning("Weapon hitbox is not assigned!");
+			}
+
+			if (weaponTrail != null)
+			{
+				weaponTrail.SetActive(true);
+				Debug.Log("Weapon trail activated");
+			}
+			else
+			{
+				Debug.LogWarning("Weapon trail is not assigned!");
 			}
 	
 			anim.SetFloat("attack", attackCombo + 1); // Trigger attack animation (1-based index)
@@ -351,10 +405,16 @@ public class Movement : MonoBehaviour
 					anim.SetFloat("attack", 0); // Reset attack animation
 					isAttacking = false;
 	
-					// Disable the weapon's hitbox after the attack finishes
+					// Disable the weapon's hitbox and trail after the attack finishes
 					if (weaponHitbox != null)
 					{
 						weaponHitbox.SetActive(false);
+					}
+
+					if (weaponTrail != null)
+					{
+						weaponTrail.SetActive(false);
+						Debug.Log("Weapon trail deactivated");
 					}
 					yield break;
 				}
@@ -370,35 +430,27 @@ public class Movement : MonoBehaviour
 		anim.SetFloat("attack", 0); // Reset animation to idle
 		isAttacking = false;
 	
-		// Disable the weapon's hitbox after the attack ends
+		// Disable the weapon's hitbox and trail after the attack ends
 		if (weaponHitbox != null)
 		{
 			weaponHitbox.SetActive(false);
 		}
-	}
-	
-	IEnumerator ApplyDamageBuff()
-	{
-		// Assuming you have a PlayerWHitbox component to manage damage
-		PlayerWHitbox playerWHitbox = GetComponent<PlayerWHitbox>();
-		if (playerWHitbox != null)
+
+		if (weaponTrail != null)
 		{
-			float originalDamage = playerWHitbox.damageAmount;
-			playerWHitbox.damageAmount *= 15f; // Example: 50% damage increase
-
-			yield return new WaitForSeconds(10.0f); // Buff duration: 10 seconds
-
-			playerWHitbox.damageAmount = originalDamage; // Revert the buff
+			weaponTrail.SetActive(false);
+			Debug.Log("Weapon trail deactivated");
 		}
 	}
 	
 	IEnumerator ResetWarcryAnimation()
 	{
-	    yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
-	    if (anim != null)
-	    {
-	        anim.SetBool("warcry", false);
-	    }
+		yield return new WaitForSeconds(1.0f); // Adjust the delay as needed
+		if (anim != null)
+		{
+			anim.SetBool("warcry", false);
+			Debug.Log("Warcry animation reset");
+		}
 	}
 
 	// Reactivate hitboxes after a delay
