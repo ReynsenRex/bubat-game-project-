@@ -22,7 +22,7 @@ public class EnemyHealthNormies : MonoBehaviour
     // Method to apply damage to the enemy
     public void TakeDamage(float damage)
     {
-        audioManager.PlaySFX(audioManager.enemyHurt);
+        //audioManager.PlaySFX(audioManager.enemyHurt);
 
         if (isDead || isInvincible) return; // If the enemy is dead or invincible, ignore damage
 

@@ -12,6 +12,7 @@ TagManager:
   - Objective
   - Block
   - Audio
+  - Ragdoll
   layers:
   - Default
   - TransparentFX

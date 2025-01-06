@@ -6,6 +6,13 @@ public class PlayerWHitbox : MonoBehaviour
 {
     public float damageAmount = 10.0f; // Amount of damage to apply
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("OnTriggerEnter called with: " + other.name);
@@ -20,6 +27,7 @@ public class PlayerWHitbox : MonoBehaviour
             if (enemyMovement != null)
             {
                 enemyMovement.TakeDamage(); // Call the TakeDamage method to trigger hit logic
+                //audioManager.PlaySFX(audioManager.enemyHurt);
                 Debug.Log("Enemy hit by player hitbox, damage applied: " + damageAmount);
             }
 
@@ -28,6 +36,7 @@ public class PlayerWHitbox : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(damageAmount);
+                audioManager.PlaySFX(audioManager.enemyHurt);
                 Debug.Log("EnemyHealth component found, damage applied: " + damageAmount);
             }
 
@@ -36,6 +45,7 @@ public class PlayerWHitbox : MonoBehaviour
             if (enemyHealthNormies != null)
             {
                 enemyHealthNormies.TakeDamage(damageAmount);
+                audioManager.PlaySFX(audioManager.enemyHurt);
                 Debug.Log("EnemyHealthNormies component found, damage applied: " + damageAmount);
             }
         }
