@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour
 	private StaminaManager staminaManager;
 	public float staminaCostSprint = 5.0f;  // Stamina cost per second for sprinting
 	public float staminaCostDodge = 20.0f;  // Stamina cost for dodging
-	public float staminaCostAttack = 15.0f; // Stamina cost for attacking
+	public float staminaCostAttack = 1.0f; // Stamina cost for attacking
 	
 	// Healing properties
 	public int maxHealUses = 3;
@@ -66,20 +66,23 @@ public class Movement : MonoBehaviour
 		// Clean up enemyHitboxes list by removing inactive or null hitboxes
 		RemoveInactiveHitboxes();
 		if (playerHealth != null && playerHealth.IsDead() && anim != null)
-    	{
-    	    anim.SetBool("dead", true); // Trigger death animation
+		{
+			anim.SetBool("dead", true); // Trigger death animation
 			if (SceneManager.GetActiveScene().name == "MainBoss")
 			{
-                SceneManager.LoadScene("CSC_Ending");
-            }
+				SceneManager.LoadScene("CSC_Ending");
+			}
 			else
 			{
-                SceneManager.LoadScene("Main Menu");
-            }
-
-			
-    	}
-		if (!isAttacking) // Only allow movement if not attacking
+				SceneManager.LoadScene("Main Menu");
+			}
+		}
+	
+		// Blocking logic
+		bool isBlocking = Input.GetMouseButton(1); // Right mouse button for blocking
+		anim.SetBool("block", isBlocking);
+	
+		if (!isAttacking && !isBlocking) // Only allow movement if not attacking or blocking
 		{
 			if (!dodge)
 			{
@@ -100,16 +103,16 @@ public class Movement : MonoBehaviour
 				Dodge();
 			}
 		}
-		
+	
 		if (Input.GetKeyDown(KeyCode.R)) // Heal when pressing R
 		{
 			Heal();
 		}
-		
+	
 		if (Time.frameCount % 60 == 0) // Example: Reassign every 60 frames
-   		{
-   			AssignHitboxes();
-   		}
+		{
+			AssignHitboxes();
+		}
 	}
 	
 	private void Heal()
@@ -132,6 +135,17 @@ public class Movement : MonoBehaviour
 			Debug.Log("No heals remaining or PlayerHealth is not assigned.");
 		}
 	}
+	
+	public void OnBlockSuccess(Vector3 enemyPosition)
+    {
+        // Calculate the direction to the enemy
+        Vector3 directionToEnemy = (enemyPosition - transform.position).normalized;
+        directionToEnemy.y = 0; // Ignore vertical direction
+
+        // Rotate the player to face the enemy
+        Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+    }
 
 	private void RemoveInactiveHitboxes()
 	{
@@ -261,18 +275,28 @@ public class Movement : MonoBehaviour
 	private IEnumerator Attack()
 	{
 		isAttacking = true;
-
+	
 		// Stop movement and reset speed in Animator
 		anim.SetFloat("speed", 0);
-
+	
 		int attackCombo = 0; // Current combo index
 		int maxCombo = 3; // Maximum combo attacks
 		float attackDuration = 1.0f; // Time for each attack animation
 		float comboResetTime = 1.5f; // Time before combo resets
 		float lastInputTime = Time.time;
-
+	
 		while (isAttacking)
 		{
+			// Check if there is enough stamina for the attack
+			if (!staminaManager.HasEnoughStamina(staminaCostAttack))
+			{
+				Debug.Log("Not enough stamina for attack.");
+				break;
+			}
+	
+			// Deduct stamina for the attack
+			staminaManager.UseStamina(staminaCostAttack);
+	
 			// Enable the weapon's hitbox at the start of the attack
 			if (weaponHitbox != null)
 			{
@@ -282,14 +306,14 @@ public class Movement : MonoBehaviour
 			{
 				Debug.LogWarning("Weapon hitbox is not assigned!");
 			}
-
+	
 			anim.SetFloat("attack", attackCombo + 1); // Trigger attack animation (1-based index)
 			float animationTime = 0f;
-
+	
 			while (animationTime < attackDuration)
 			{
 				animationTime += Time.deltaTime;
-
+	
 				// Handle combo continuation
 				if (Input.GetMouseButtonDown(0) && animationTime >= 0.5f)
 				{
@@ -304,14 +328,14 @@ public class Movement : MonoBehaviour
 					}
 					break;
 				}
-
+	
 				// Reset combo if no input within the reset time
 				if (Time.time - lastInputTime > comboResetTime)
 				{
 					attackCombo = 0;
 					anim.SetFloat("attack", 0); // Reset attack animation
 					isAttacking = false;
-
+	
 					// Disable the weapon's hitbox after the attack finishes
 					if (weaponHitbox != null)
 					{
@@ -319,18 +343,18 @@ public class Movement : MonoBehaviour
 					}
 					yield break;
 				}
-
+	
 				yield return null;
 			}
-
+	
 			yield return new WaitForSeconds(0.1f); // Small delay before next combo
-
+	
 			if (attackCombo == 0) break; // Exit loop if combo is reset
 		}
-
+	
 		anim.SetFloat("attack", 0); // Reset animation to idle
 		isAttacking = false;
-
+	
 		// Disable the weapon's hitbox after the attack ends
 		if (weaponHitbox != null)
 		{

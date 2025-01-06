@@ -2,18 +2,17 @@ using UnityEngine;
 
 public class StaminaManager : MonoBehaviour
 {
-    public float maxStamina = 100.0f;
-    public float staminaRegenRate = 10.0f; // Stamina regenerated per second
+    public float maxStamina = 100f;
     public float currentStamina;
-
+    public float staminaRegenRate = 5f; // Adjust this value to control regeneration speed
     private bool isRegenerating = true;
 
-    void Start()
+    private void Start()
     {
-        currentStamina = maxStamina; // Start with full stamina
+        currentStamina = maxStamina;
     }
 
-    void Update()
+    private void Update()
     {
         if (isRegenerating)
         {
