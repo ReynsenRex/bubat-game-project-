@@ -213,6 +213,8 @@ public class Movement : MonoBehaviour
 		// Rotate the player to face the enemy
 		Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
 		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+
+		audioManager.PlaySFX(audioManager.shieldHit);
 	}
 
 	private void RemoveInactiveHitboxes()
@@ -245,6 +247,7 @@ public class Movement : MonoBehaviour
 
 	private void HandleMovement()
 	{
+		audioManager.PlaySFX(audioManager.walk);
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
 	
