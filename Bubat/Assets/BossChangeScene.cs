@@ -18,7 +18,7 @@ public class BossChangeScene : MonoBehaviour
     {
         if (health <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene("CSC_ALTER_Ending");
         }
     }
 }
