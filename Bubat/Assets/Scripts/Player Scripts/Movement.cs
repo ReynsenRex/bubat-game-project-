@@ -122,8 +122,7 @@ public class Movement : MonoBehaviour
 		{
 			if (!dodge)
 			{
-                audioManager.PlaySFX(audioManager.walk);
-                HandleMovement();
+				HandleMovement();
 				if (Input.GetMouseButtonDown(0) && staminaManager.HasEnoughStamina(staminaCostAttack)) // Attack on left mouse button
 				{
 					staminaManager.UseStamina(staminaCostAttack);
@@ -248,9 +247,7 @@ public class Movement : MonoBehaviour
 		}
 	}
 
-    private bool isWalking = false; // To track if the walking audio is already playing
-
-    private void HandleMovement()
+	private void HandleMovement()
 	{
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
@@ -279,22 +276,8 @@ public class Movement : MonoBehaviour
 
 		LayerMask wallLayer = LayerMask.GetMask("Wall"); // Ensure "Wall" layer is assigned
 
-        if (movement.magnitude > 0)
-        {
-            if (!isWalking)
-            {
-                isWalking = true;
-                audioManager.PlaySFX(audioManager.walk);
-            }
-        }
-        else
-        {
-            isWalking = false;
-            audioManager.StopSFX(); // Stop the walking sound if not moving
-        }
-
-        // If there's movement, check for obstacles and move
-        if (movement.magnitude > 0)
+		// If there's movement, check for obstacles and move
+		if (movement.magnitude > 0)
 		{
 			if (!isWalking)
 			{
