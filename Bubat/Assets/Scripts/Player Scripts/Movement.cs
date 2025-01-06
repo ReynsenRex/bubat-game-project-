@@ -34,8 +34,16 @@ public class Movement : MonoBehaviour
 	public int remainingHealUses = 3;
 	public int healAmount = 30;
 
-	// Start is called before the first frame update
-	void Start()
+	// Audio
+	AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
@@ -360,6 +368,7 @@ public class Movement : MonoBehaviour
 			if (weaponHitbox != null)
 			{
 				weaponHitbox.SetActive(true);
+				audioManager.PlaySFX(audioManager.slash);
 			}
 			else
 			{
