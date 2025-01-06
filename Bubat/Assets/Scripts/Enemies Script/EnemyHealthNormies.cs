@@ -12,9 +12,18 @@ public class EnemyHealthNormies : MonoBehaviour
     // Public GameObject to hold the ragdoll prefab
     public GameObject ragdollPrefab;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     // Method to apply damage to the enemy
     public void TakeDamage(float damage)
     {
+        audioManager.PlaySFX(audioManager.enemyHurt);
+
         if (isDead || isInvincible) return; // If the enemy is dead or invincible, ignore damage
 
         health -= damage; // Subtract damage from health

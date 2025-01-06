@@ -10,9 +10,18 @@ public class EnemyHealth : MonoBehaviour
     private bool isInvincible = false; // Track if the enemy is currently invincible
     public float invincibilityDuration = 0.3f; // Duration of invincibility after taking damage
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     // Method to apply damage to the enemy
     public void TakeDamage(float damage)
     {
+        audioManager.PlaySFX(audioManager.enemyHurt);
+
         if (isDead || isInvincible) return; // If the enemy is dead or invincible, ignore damage
 
         health -= damage; // Subtract damage from health

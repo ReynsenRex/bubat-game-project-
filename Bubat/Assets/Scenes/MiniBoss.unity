@@ -22155,6 +22155,8 @@ MonoBehaviour:
   slashHit: {fileID: 8300000, guid: ad1dae5297b96d14bb2d4cc521c700a6, type: 3}
   dodge: {fileID: 8300000, guid: 1a870b2bd9621cc438fb64e23b4d1b05, type: 3}
   walk: {fileID: 8300000, guid: 8998055f0d79fc14790857814ed97f32, type: 3}
+  hurt: {fileID: 8300000, guid: 2cf5cfbc73c7147479613ba35e8dae07, type: 3}
+  enemyHurt: {fileID: 8300000, guid: 52ccd5a780319644e82d92ef454ee11a, type: 3}
 --- !u!4 &1704400764
 Transform:
   m_ObjectHideFlags: 0

@@ -13,8 +13,10 @@ public class AudioManager : MonoBehaviour
 	public AudioClip slashHit;
 	public AudioClip dodge;
 	public AudioClip walk;
+	public AudioClip hurt;
+	public AudioClip enemyHurt;
 
-	public void Awake()
+    public void Awake()
 	{
 		musicSource.clip = bgm;
 		musicSource.Play();
