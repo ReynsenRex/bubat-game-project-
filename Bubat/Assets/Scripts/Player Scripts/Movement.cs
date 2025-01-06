@@ -22,6 +22,8 @@ public class Movement : MonoBehaviour
 	private float rollTime = 0f;
 	private Vector3 rollDirection;
 	private bool isAttacking = false;
+	private bool isWalking = false; // Flag to track walking state
+
 	private Vector3 rootMotionDelta = Vector3.zero; // To store root motion adjustments
 
 	private StaminaManager staminaManager;
@@ -37,13 +39,13 @@ public class Movement : MonoBehaviour
 	// Audio
 	AudioManager audioManager;
 
-    private void Awake()
-    {
-        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
-    }
+	private void Awake()
+	{
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+	}
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		anim = GetComponent<Animator>();
@@ -138,9 +140,9 @@ public class Movement : MonoBehaviour
 			}
 		}
 		if (Input.GetKeyDown(KeyCode.Alpha2)) // Warcry skill on right mouse button
-    	{
-    	    StartCoroutine(WarcrySkill());
-    	}
+		{
+			StartCoroutine(WarcrySkill());
+		}
 	
 		if (Input.GetKeyDown(KeyCode.R)) // Heal when pressing R
 		{
@@ -247,20 +249,19 @@ public class Movement : MonoBehaviour
 
 	private void HandleMovement()
 	{
-		audioManager.PlaySFX(audioManager.walk);
 		float moveHorizontal = Input.GetAxis("Horizontal");
 		float moveVertical = Input.GetAxis("Vertical");
-	
+
 		// Get camera-forward and camera-right vectors
 		Vector3 cameraForward = Camera.main.transform.forward;
 		Vector3 cameraRight = Camera.main.transform.right;
-	
+
 		// Flatten camera vectors to ignore vertical axis
 		cameraForward.y = 0;
 		cameraRight.y = 0;
 		cameraForward.Normalize();
 		cameraRight.Normalize();
-	
+
 		// Create movement vector relative to the camera
 		Vector3 movement = (cameraForward * moveVertical + cameraRight * moveHorizontal).normalized;
 		Debug.DrawRay(transform.position, movement * 1f, Color.red);
@@ -278,15 +279,21 @@ public class Movement : MonoBehaviour
 		// If there's movement, check for obstacles and move
 		if (movement.magnitude > 0)
 		{
+			if (!isWalking)
+			{
+				audioManager.PlaySFX(audioManager.walk);
+				isWalking = true;
+			}
+
 			// Calculate desired movement direction
 			Vector3 desiredMovement = movement * currentSpeed * Time.deltaTime;
-	
+
 			// Perform a raycast to check for collisions
 			if (!Physics.Raycast(transform.position, movement, out RaycastHit hit, 0.5f))
 			{
 				// Apply movement using Rigidbody
 				rb.transform.Translate(desiredMovement, Space.World);
-	
+
 				// Smoothly rotate the character towards movement direction
 				Quaternion targetRotation = Quaternion.LookRotation(movement);
 				rb.rotation = Quaternion.Slerp(rb.rotation, targetRotation, Time.deltaTime * 10f);
@@ -297,7 +304,15 @@ public class Movement : MonoBehaviour
 				Debug.Log("Hit a wall, stopping movement.");
 			}
 		}
-	
+		else
+		{
+			if (isWalking)
+			{
+				isWalking = false;
+				audioManager.StopSFX();
+			}
+		}
+
 		// Update animator parameters
 		anim.SetFloat("x", moveHorizontal);
 		anim.SetFloat("y", moveVertical);
