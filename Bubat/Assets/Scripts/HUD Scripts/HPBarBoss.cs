@@ -9,11 +9,19 @@ public class HPBarBoss : MonoBehaviour
     private float speed = 1; // Speed of health bar animation
     public Transform player; // Reference to the player's transform
 
+    private void Start()
+    {
+        if (enemyHealthBoss != null)
+        {
+            maxHP = enemyHealthBoss.health;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         // Update the health bar based on the enemy's current health
-        if (enemyHealthBoss != null)
+        if (enemyHealthBoss != null && maxHP != 0)
         {
             UpdateHP(enemyHPBar, enemyHealthBoss.health, maxHP);
         }
