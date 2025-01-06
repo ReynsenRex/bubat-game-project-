@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CSC_Text1.unity
     guid: 82f508e9372ee6f4ba97835a26508510
   - enabled: 1
+    path: Assets/Scenes/CSC_Putri2.unity
+    guid: faa3cfe22bfa4db418ec803bc46ab0bd
+  - enabled: 1
     path: Assets/Scenes/PrincessPayload.unity
     guid: 7762a1f1a269b06408e162fef15e6361
   - enabled: 1
