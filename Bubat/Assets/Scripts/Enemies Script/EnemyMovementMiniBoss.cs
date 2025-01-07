@@ -26,7 +26,15 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 	private int spawnCount = 0; // Count how many times the enemy has spawned (maximum 2)
 	private EnemyHealth enemyHealth; // Reference to the enemy's health script
 
-	void Start()
+    // Audio
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
+    void Start()
 	{
 		controller = GetComponent<CharacterController>();
 		anim = GetComponent<Animator>();
@@ -85,6 +93,7 @@ public class EnemyMovementMiniBoss : MonoBehaviour
 			if (enemyHealth.health > 30f || enemyHealth.health <= 30f)
 			{
 				anim.SetBool("spawn", true);
+				audioManager.PlaySFX(audioManager.shout);
 				SpawnEnemy(); // Spawn enemy when health reaches 60 or 30
 			}
 		}

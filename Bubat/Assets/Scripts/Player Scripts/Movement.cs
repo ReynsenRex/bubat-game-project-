@@ -157,6 +157,8 @@ public class Movement : MonoBehaviour
 	private IEnumerator WarcrySkill()
 	{
 		anim.SetBool("warcry", true); // Trigger warcry animation
+
+		audioManager.PlaySFX(audioManager.shout);
 	
 		if (weaponHitbox != null)
 		{

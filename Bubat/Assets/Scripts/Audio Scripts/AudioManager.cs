@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
 	public AudioClip walk;
 	public AudioClip hurt;
 	public AudioClip enemyHurt;
+	public AudioClip shout;
 
     public void Awake()
 	{

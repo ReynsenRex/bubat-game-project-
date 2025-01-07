@@ -60,7 +60,7 @@ public class PlayerWHitbox : MonoBehaviour
     {
         Debug.Log("ApplyDamageBuff called");
         float originalDamage = damageAmount;
-        damageAmount *= 1.5f; // Example: 50% damage increase
+        damageAmount = 15f; // Example: 50% damage increase
         Debug.Log("Damage buff applied, new damage amount: " + damageAmount);
 
         yield return new WaitForSeconds(10.0f); // Buff duration: 10 seconds

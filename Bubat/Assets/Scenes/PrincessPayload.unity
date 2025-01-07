@@ -12936,7 +12936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &705507994
 Light:
   m_ObjectHideFlags: 0
@@ -13447,6 +13447,7 @@ MonoBehaviour:
   walk: {fileID: 8300000, guid: ad1dae5297b96d14bb2d4cc521c700a6, type: 3}
   hurt: {fileID: 8300000, guid: 2cf5cfbc73c7147479613ba35e8dae07, type: 3}
   enemyHurt: {fileID: 8300000, guid: 52ccd5a780319644e82d92ef454ee11a, type: 3}
+  shout: {fileID: 8300000, guid: 7e579d20189e11f4ca2fb6540c88d153, type: 3}
 --- !u!4 &748512451
 Transform:
   m_ObjectHideFlags: 0
