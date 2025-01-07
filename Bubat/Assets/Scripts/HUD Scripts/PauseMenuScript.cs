@@ -23,7 +23,7 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
-    void Resume()
+    public void Resume()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
@@ -34,7 +34,7 @@ public class PauseMenuUI : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void Pause()
+    public void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -45,7 +45,12 @@ public class PauseMenuUI : MonoBehaviour
         Cursor.visible = true;
     }
 
-    void QuitGame()
+    public void LoadMenu()
+    {
+        Debug.Log("Loading menu");
+    }
+
+    public void QuitGame()
     {
         Debug.Log("Game quitted");
         Application.Quit();

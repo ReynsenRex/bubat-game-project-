@@ -11511,8 +11511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxStamina: 100
-  staminaRegenRate: 10
   currentStamina: 100
+  staminaRegenRate: 10
 --- !u!114 &1382817753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11528,30 +11528,6 @@ MonoBehaviour:
   health: 100
   invincibilityDuration: 0.3
   maxHealth: 100
---- !u!114 &1382817754
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1382817750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6dec3b319e640348ab8a8561ea9566e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyHitboxes: []
-  weaponHitbox: {fileID: 1968488234}
-  speed: 3
-  sprintSpeed: 5
-  rollSpeed: 5
-  rollDuration: 0.5
-  staminaCostSprint: 5
-  staminaCostDodge: 20
-  staminaCostAttack: 15
-  maxHealUses: 3
-  remainingHealUses: 3
-  healAmount: 30
 --- !u!54 &1382817755
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13469,9 +13445,6 @@ PrefabInstance:
       addedObject: {fileID: 1382817755}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1382817754}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1382817753}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e209e6127f853f942bb2841c09ef1c1c, type: 3}
       insertIndex: -1
@@ -13512,6 +13485,8 @@ MonoBehaviour:
   enemyHitboxes:
   - {fileID: 0}
   weaponHitbox: {fileID: 0}
+  weaponTrail: {fileID: 0}
+  shieldHitbox: {fileID: 0}
   speed: 2.5
   sprintSpeed: 5
   rollSpeed: 5
