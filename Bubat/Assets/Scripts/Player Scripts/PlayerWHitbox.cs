@@ -19,35 +19,40 @@ public class PlayerWHitbox : MonoBehaviour
 
         // Check if the collider belongs to an enemy
         if (other.CompareTag("Enemy"))
+    {
+        Debug.Log("Enemy detected: " + other.name);
+
+        // Try to get the EnemyMovementNormies component
+        EnemyMovementNormies enemyMovement = other.GetComponent<EnemyMovementNormies>();
+        if (enemyMovement != null)
         {
-            Debug.Log("Enemy detected: " + other.name);
+            enemyMovement.TakeDamage(); // Call the TakeDamage method to trigger hit logic
+            Debug.Log("Enemy hit by player hitbox, damage applied: " + damageAmount);
+        }
 
-            // Try to get the EnemyMovementNormies component
-            EnemyMovementNormies enemyMovement = other.GetComponent<EnemyMovementNormies>();
-            if (enemyMovement != null)
+        // Try to get the EnemyHealth component
+        EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.TakeDamage(damageAmount);
+            if (this.CompareTag("PlayerHitbox"))
             {
-                enemyMovement.TakeDamage(); // Call the TakeDamage method to trigger hit logic
-                //audioManager.PlaySFX(audioManager.enemyHurt);
-                Debug.Log("Enemy hit by player hitbox, damage applied: " + damageAmount);
-            }
-
-            // Try to get the EnemyHealth component
-            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
-            {
-                enemyHealth.TakeDamage(damageAmount);
                 audioManager.PlaySFX(audioManager.enemyHurt);
-                Debug.Log("EnemyHealth component found, damage applied: " + damageAmount);
             }
+            Debug.Log("EnemyHealth component found, damage applied: " + damageAmount);
+        }
 
-            // Try to get the EnemyHealthNormies component
-            EnemyHealthNormies enemyHealthNormies = other.GetComponent<EnemyHealthNormies>();
-            if (enemyHealthNormies != null)
+        // Try to get the EnemyHealthNormies component
+        EnemyHealthNormies enemyHealthNormies = other.GetComponent<EnemyHealthNormies>();
+        if (enemyHealthNormies != null)
+        {
+            enemyHealthNormies.TakeDamage(damageAmount);
+            if (this.CompareTag("PlayerHitbox"))
             {
-                enemyHealthNormies.TakeDamage(damageAmount);
                 audioManager.PlaySFX(audioManager.enemyHurt);
-                Debug.Log("EnemyHealthNormies component found, damage applied: " + damageAmount);
             }
+            Debug.Log("EnemyHealthNormies component found, damage applied: " + damageAmount);
+        }
         }
     }
 

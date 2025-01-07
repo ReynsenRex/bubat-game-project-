@@ -13,6 +13,7 @@ TagManager:
   - Block
   - Audio
   - Ragdoll
+  - PlayerHitbox
   layers:
   - Default
   - TransparentFX
